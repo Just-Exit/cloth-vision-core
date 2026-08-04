@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "overall_weights": {
+    "color": 0.4,
+    "season": 0.35,
+    "style": 0.25,
+    "category": 0.0
+  },
+  "color": {
+    "correlations": {},
+    "missing_score": 60,
+    "neutral_score": 92,
+    "minimum_score": 55
+  },
+  "season": {
+    "correlations": {},
+    "missing_score": 60,
+    "default_score": 60,
+    "same_score": 100
+  },
+  "style": {
+    "correlations": {},
+    "default_score": 60,
+    "base_match_score": 70,
+    "per_shared_tag": 15,
+    "maximum_score": 100
+  },
+  "category": {
+    "correlations": {},
+    "missing_score": 60,
+    "default_score": 60,
+    "same_score": 100
+  }
+}
