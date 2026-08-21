@@ -3,13 +3,11 @@ name = "cloth-vision-core"
 version = "0.1.0"
 description = "Provider-neutral fashion image analysis and item matching toolkit"
 readme = "README.md"
-license = "MIT"
 requires-python = ">=3.11"
 authors = [{ name = "onedayonecommit" }]
 keywords = ["computer-vision", "fashion", "image-analysis", "recommendation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
