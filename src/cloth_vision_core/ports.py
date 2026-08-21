@@ -15,7 +15,7 @@ class VisionProvider(Protocol):
 
 
 class SegmentationProvider(Protocol):
-    def create_mask(self, image: ProcessedImage) -> Path: ...
+    def segment(self, image: ProcessedImage) -> ProcessedImage: ...
 
 
 class ExplanationProvider(Protocol):

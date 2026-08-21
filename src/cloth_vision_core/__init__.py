@@ -12,8 +12,10 @@ from cloth_vision_core.models import (
     AnalysisResult,
     Category,
     ExplanationContext,
+    ItemColor,
     ItemProfile,
     MatchResult,
+    MaterialEstimate,
     ProcessedImage,
     VisionResult,
 )
@@ -25,6 +27,7 @@ from cloth_vision_core.ports import (
     TextGenerationProvider,
     VisionProvider,
 )
+from cloth_vision_core.segmentation import RembgSegmentationProvider
 
 __all__ = [
     "AnalysisPipeline",
@@ -37,6 +40,8 @@ __all__ = [
     "InvalidImageError",
     "InvalidMatchingConfigError",
     "ItemProfile",
+    "ItemColor",
+    "MaterialEstimate",
     "LLMExplanationProvider",
     "MatchResult",
     "MatchingEngine",
@@ -44,6 +49,7 @@ __all__ = [
     "PillowImageProcessor",
     "ProcessedImage",
     "ProviderError",
+    "RembgSegmentationProvider",
     "SegmentationProvider",
     "TextGenerationProvider",
     "VisionProvider",
