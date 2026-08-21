@@ -21,10 +21,10 @@ def test_pipeline_combines_local_image_and_provider_results(tmp_path) -> None:
     assert result.category == Category.OUTER
     assert result.subcategory == "puffer_jacket"
     assert result.season_tags == ["winter"]
-    assert result.color_hex == "#142850"
+    assert result.color_hex is None
 
 
-def test_pipeline_falls_back_to_local_analysis_when_provider_fails(tmp_path) -> None:
+def test_pipeline_marks_analysis_unavailable_when_provider_fails(tmp_path) -> None:
     path = tmp_path / "garment.png"
     Image.new("RGB", (256, 256), (30, 80, 180)).save(path)
 
@@ -36,7 +36,9 @@ def test_pipeline_falls_back_to_local_analysis_when_provider_fails(tmp_path) -> 
     result = AnalysisPipeline(PillowImageProcessor(), FailingProvider()).analyze(path)
 
     assert result.category is Category.UNKNOWN
-    assert result.color_name == "blue"
+    assert result.color_hex is None
+    assert result.color_name is None
+    assert result.colors == []
     assert result.attributes == {"analysis_warning": "vision_provider_failed"}
 
 

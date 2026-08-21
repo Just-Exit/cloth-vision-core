@@ -31,9 +31,8 @@ def color_name(red: int, green: int, blue: int) -> str:
 
 
 class PillowImageProcessor:
-    def __init__(self, minimum_size: int = 128, analysis_size: int = 128) -> None:
+    def __init__(self, minimum_size: int = 128) -> None:
         self.minimum_size = minimum_size
-        self.analysis_size = analysis_size
 
     def process(self, image_path: Path) -> ProcessedImage:
         try:
@@ -44,11 +43,6 @@ class PillowImageProcessor:
                     raise InvalidImageError(
                         f"image resolution must be at least {self.minimum_size}x{self.minimum_size}"
                     )
-                image.thumbnail((self.analysis_size, self.analysis_size))
-                colors = image.quantize(colors=5).convert("RGB").getcolors()
-                if not colors:
-                    raise InvalidImageError("unable to extract image colors")
-                _, (red, green, blue) = max(colors, key=lambda item: item[0])
         except InvalidImageError:
             raise
         except (UnidentifiedImageError, OSError) as exc:
@@ -58,6 +52,4 @@ class PillowImageProcessor:
             path=image_path,
             width=width,
             height=height,
-            display_hex=f"#{red:02X}{green:02X}{blue:02X}",
-            color_name=color_name(red, green, blue),
         )

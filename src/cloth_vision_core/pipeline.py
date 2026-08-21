@@ -30,7 +30,7 @@ class AnalysisPipeline:
             vision = (
                 self.vision_provider.analyze(image)
                 if self.vision_provider
-                else self._fallback_vision()
+                else self._fallback_vision("vision_provider_unavailable")
             )
         except ProviderError:
             vision = self._fallback_vision("vision_provider_failed")
@@ -46,18 +46,23 @@ class AnalysisPipeline:
             season_tags=vision.season_tags,
             confidence=vision.confidence,
             attributes=vision.attributes,
-            colors=vision.colors
-            or [
+            colors=vision.colors or self._segmented_color(image),
+            materials=vision.materials,
+            suggested_display_name=vision.suggested_display_name,
+        )
+
+    @staticmethod
+    def _segmented_color(image) -> list[ItemColor]:
+        if image.mask_path and image.display_hex and image.color_name:
+            return [
                 ItemColor(
                     display_hex=image.display_hex,
                     color_name=image.color_name,
                     ratio=1.0,
                     confidence=1.0,
                 )
-            ],
-            materials=vision.materials,
-            suggested_display_name=vision.suggested_display_name,
-        )
+            ]
+        return []
 
     @staticmethod
     def _fallback_vision(warning: str | None = None) -> VisionResult:

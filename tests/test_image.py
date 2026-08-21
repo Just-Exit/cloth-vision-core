@@ -12,14 +12,14 @@ def save_image(path, color: tuple[int, int, int], size: tuple[int, int] = (256, 
     path.write_bytes(buffer.getvalue())
 
 
-def test_extracts_representative_color(tmp_path) -> None:
+def test_validates_image_without_inferring_a_background_color(tmp_path) -> None:
     path = tmp_path / "pink.png"
     save_image(path, (235, 100, 160))
 
     result = PillowImageProcessor().process(path)
 
-    assert result.display_hex == "#EB64A0"
-    assert result.color_name == "pink"
+    assert result.display_hex is None
+    assert result.color_name is None
     assert result.width == 256
 
 

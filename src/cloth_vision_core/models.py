@@ -20,8 +20,8 @@ class ProcessedImage:
     path: Path
     width: int
     height: int
-    display_hex: str
-    color_name: str
+    display_hex: str | None = None
+    color_name: str | None = None
     analysis_path: Path | None = None
     mask_path: Path | None = None
     transparent_path: Path | None = None
@@ -60,8 +60,8 @@ class VisionResult:
 class AnalysisResult:
     category: Category
     subcategory: str
-    color_hex: str
-    color_name: str
+    color_hex: str | None
+    color_name: str | None
     style_tags: list[str]
     season_tags: list[str]
     confidence: float
