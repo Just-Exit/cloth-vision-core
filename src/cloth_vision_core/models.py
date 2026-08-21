@@ -22,6 +22,25 @@ class ProcessedImage:
     height: int
     display_hex: str
     color_name: str
+    analysis_path: Path | None = None
+    mask_path: Path | None = None
+    transparent_path: Path | None = None
+    bounding_box: tuple[int, int, int, int] | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class ItemColor:
+    display_hex: str
+    color_name: str
+    ratio: float
+    confidence: float | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class MaterialEstimate:
+    name: str
+    confidence: float | None = None
+    source: str = "vision_estimate"
 
 
 @dataclass(frozen=True, slots=True)
@@ -32,6 +51,9 @@ class VisionResult:
     season_tags: list[str] = field(default_factory=list)
     confidence: float = 0.0
     attributes: dict[str, str] = field(default_factory=dict)
+    colors: list[ItemColor] = field(default_factory=list)
+    materials: list[MaterialEstimate] = field(default_factory=list)
+    suggested_display_name: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -44,6 +66,9 @@ class AnalysisResult:
     season_tags: list[str]
     confidence: float
     attributes: dict[str, str] = field(default_factory=dict)
+    colors: list[ItemColor] = field(default_factory=list)
+    materials: list[MaterialEstimate] = field(default_factory=list)
+    suggested_display_name: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
