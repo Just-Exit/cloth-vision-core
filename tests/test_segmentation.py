@@ -35,3 +35,8 @@ def test_segmentation_preserves_original_and_creates_analysis_artifacts(
     assert processed.mask_path and processed.mask_path.exists()
     assert processed.transparent_path and processed.transparent_path.exists()
     assert processed.analysis_path and processed.analysis_path.exists()
+    assert processed.thumbnail_path and processed.thumbnail_path.exists()
+    with Image.open(processed.analysis_path) as normalized:
+        assert normalized.size == (1024, 1024)
+    with Image.open(processed.thumbnail_path) as thumbnail:
+        assert thumbnail.size == (384, 384)

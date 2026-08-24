@@ -48,16 +48,30 @@ class RembgSegmentationProvider:
                 mask_path = artifact_dir / "mask.png"
                 transparent_path = artifact_dir / "transparent.png"
                 analysis_path = artifact_dir / "normalized.jpg"
+                thumbnail_path = artifact_dir / "thumbnail.webp"
                 mask.save(mask_path, format="PNG")
                 isolated.save(transparent_path, format="PNG")
 
                 crop = original.crop(bbox)
                 crop_mask = mask.crop(bbox)
-                crop.thumbnail((1024, 1024))
-                crop_mask.thumbnail(crop.size)
-                normalized = Image.new("RGB", crop.size, (245, 245, 245))
-                normalized.paste(crop, mask=crop_mask)
+                canvas_size = 1024
+                foreground_size = 768
+                scale = min(foreground_size / crop.width, foreground_size / crop.height)
+                resized_size = (
+                    max(1, round(crop.width * scale)),
+                    max(1, round(crop.height * scale)),
+                )
+                crop = crop.resize(resized_size, Image.Resampling.LANCZOS)
+                crop_mask = crop_mask.resize(resized_size, Image.Resampling.LANCZOS)
+                normalized = Image.new("RGB", (canvas_size, canvas_size), (247, 247, 245))
+                offset = (
+                    (canvas_size - resized_size[0]) // 2,
+                    (canvas_size - resized_size[1]) // 2,
+                )
+                normalized.paste(crop, box=offset, mask=crop_mask)
                 normalized.save(analysis_path, format="JPEG", quality=92)
+                thumbnail = normalized.resize((384, 384), Image.Resampling.LANCZOS)
+                thumbnail.save(thumbnail_path, format="WEBP", quality=85, method=6)
 
                 display_hex, display_name = self._dominant_color(original, mask)
         except ProviderError:
@@ -74,6 +88,7 @@ class RembgSegmentationProvider:
             analysis_path=analysis_path,
             mask_path=mask_path,
             transparent_path=transparent_path,
+            thumbnail_path=thumbnail_path,
             bounding_box=bbox,
         )
 

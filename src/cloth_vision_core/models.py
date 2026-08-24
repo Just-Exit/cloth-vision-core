@@ -25,6 +25,7 @@ class ProcessedImage:
     analysis_path: Path | None = None
     mask_path: Path | None = None
     transparent_path: Path | None = None
+    thumbnail_path: Path | None = None
     bounding_box: tuple[int, int, int, int] | None = None
 
 
@@ -90,6 +91,29 @@ class MatchResult:
     style_score: int
     reasons: list[str]
     category_score: int = 60
+
+
+@dataclass(frozen=True, slots=True)
+class OutfitCandidate:
+    item_ids: tuple[UUID, ...]
+    overall_score: int
+    color_score: int
+    season_score: int
+    style_score: int
+    reasons: list[str]
+
+
+@dataclass(frozen=True, slots=True)
+class OutfitRecommendationResult:
+    outfits: list[OutfitCandidate]
+    missing_categories: list[Category]
+    evaluated_candidates: int
+
+
+@dataclass(frozen=True, slots=True)
+class OutfitExplanation:
+    reason: str
+    stylist_tip: str
 
 
 @dataclass(frozen=True, slots=True)

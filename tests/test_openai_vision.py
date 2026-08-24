@@ -19,7 +19,6 @@ def test_openai_vision_sends_image_and_parses_structured_result(tmp_path: Path) 
             return SimpleNamespace(
                 output_text=json.dumps(
                     {
-                        "display_name": "네이비 코튼 셔츠",
                         "category": "top",
                         "subcategory": "shirt",
                         "colors": [
@@ -30,7 +29,6 @@ def test_openai_vision_sends_image_and_parses_structured_result(tmp_path: Path) 
                                 "confidence": 0.8,
                             }
                         ],
-                        "materials": [{"name": "cotton", "confidence": 0.7}],
                         "style_tags": ["casual"],
                         "season_tags": ["spring"],
                         "attributes": {
@@ -58,8 +56,8 @@ def test_openai_vision_sends_image_and_parses_structured_result(tmp_path: Path) 
     )
 
     assert result.category.value == "top"
-    assert result.suggested_display_name == "네이비 코튼 셔츠"
-    assert result.materials[0].name == "cotton"
+    assert result.suggested_display_name is None
+    assert result.materials == []
     assert result.colors[0].display_hex == "#123456"
     assert calls[0]["text"]["format"]["type"] == "json_schema"
     assert calls[0]["input"][0]["content"][1]["type"] == "input_image"

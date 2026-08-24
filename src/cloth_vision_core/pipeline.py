@@ -34,9 +34,7 @@ class AnalysisPipeline:
             )
         except ProviderError:
             vision = self._fallback_vision("vision_provider_failed")
-        primary_color = (
-            max(vision.colors, key=lambda color: color.ratio) if vision.colors else None
-        )
+        primary_color = max(vision.colors, key=lambda color: color.ratio) if vision.colors else None
         return AnalysisResult(
             category=vision.category,
             subcategory=vision.subcategory,
