@@ -3,7 +3,14 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Protocol
 
-from cloth_vision_core.models import ExplanationContext, ProcessedImage, VisionResult
+from cloth_vision_core.models import (
+    ExplanationContext,
+    ItemProfile,
+    OutfitCandidate,
+    OutfitExplanation,
+    ProcessedImage,
+    VisionResult,
+)
 
 
 class ImageProcessor(Protocol):
@@ -20,6 +27,12 @@ class SegmentationProvider(Protocol):
 
 class ExplanationProvider(Protocol):
     def explain(self, context: ExplanationContext) -> str: ...
+
+
+class OutfitExplanationProvider(Protocol):
+    def explain(
+        self, candidate: OutfitCandidate, items: list[ItemProfile]
+    ) -> OutfitExplanation: ...
 
 
 class TextGenerationProvider(Protocol):

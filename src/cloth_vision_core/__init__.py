@@ -16,13 +16,19 @@ from cloth_vision_core.models import (
     ItemProfile,
     MatchResult,
     MaterialEstimate,
+    OutfitCandidate,
+    OutfitExplanation,
+    OutfitRecommendationResult,
     ProcessedImage,
     VisionResult,
 )
+from cloth_vision_core.outfit import OutfitRecommendationEngine
+from cloth_vision_core.outfit_image import OutfitImageComposer
 from cloth_vision_core.pipeline import AnalysisPipeline
 from cloth_vision_core.ports import (
     ExplanationProvider,
     ImageProcessor,
+    OutfitExplanationProvider,
     SegmentationProvider,
     TextGenerationProvider,
     VisionProvider,
@@ -44,6 +50,12 @@ __all__ = [
     "MaterialEstimate",
     "LLMExplanationProvider",
     "MatchResult",
+    "OutfitCandidate",
+    "OutfitExplanation",
+    "OutfitExplanationProvider",
+    "OutfitImageComposer",
+    "OutfitRecommendationEngine",
+    "OutfitRecommendationResult",
     "MatchingEngine",
     "MatchingConfig",
     "PillowImageProcessor",
